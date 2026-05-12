@@ -1,6 +1,6 @@
-import Link from "next/link";
-import { APP_CONFIG } from "@/lib/constants";
+import { Logo } from "@/components/brand/Logo";
 import { createClient } from "@/lib/supabase/server";
+import Link from "next/link";
 
 export async function Navbar() {
   const supabase = await createClient();
@@ -9,20 +9,12 @@ export async function Navbar() {
   return (
     <nav className="fixed inset-x-0 top-0 z-50 border-b border-white/4 bg-[#050810]/60 backdrop-blur-xl">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
-        <Link href="/" className="flex items-center gap-3 group">
-          <div className="h-9 w-9 overflow-hidden rounded-xl border border-white/5 bg-white/2 p-1.5 transition-all group-hover:border-neon-blue/50 group-hover:bg-neon-blue/5">
-            <img src="/logo-icon.png" alt={`${APP_CONFIG.name} Icon`} className="h-full w-full object-contain" />
-          </div>
-          <div className="group-hover:translate-x-0.5 transition-transform">
-            <h4 className="text-sm font-bold tracking-tight text-white leading-tight">{APP_CONFIG.shortName}</h4>
-            {/* <p className="text-[9px] font-bold uppercase tracking-[0.15em] text-zinc-500 leading-tight">{APP_CONFIG.tagline}</p> */}
-          </div>
-        </Link>
+        <Logo iconSize="sm" showText={true} />
         <div className="hidden items-center gap-7 md:flex">
           {['Features', 'Architecture', 'Feeds', 'Pricing'].map((item) => (
-            <a key={item} href={`#${item.toLowerCase().replace(/ /g, '-')}`} className="text-[11px] font-bold uppercase tracking-wider text-zinc-500 transition-colors hover:text-white">
+            <Link key={item} href={`/#${item.toLowerCase().replace(/ /g, '-')}`} className="text-[11px] font-bold uppercase tracking-wider text-zinc-500 transition-colors hover:text-white">
               {item}
-            </a>
+            </Link>
           ))}
         </div>
         <div className="flex items-center gap-6">

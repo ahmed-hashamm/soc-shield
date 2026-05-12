@@ -37,9 +37,9 @@ export function Hero() {
               Initialise Protection
             </button>
           </Link>
-          <a href="#architecture" className="w-full rounded-xl border border-white/8 bg-white/2 px-8 py-4 text-[11px] font-black uppercase tracking-[0.2em] text-zinc-400 transition-all duration-300 hover:border-white/15 hover:bg-white/5 hover:text-white sm:w-auto">
+          <Link href="/#architecture" className="w-full rounded-xl border border-white/8 bg-white/2 px-8 py-4 text-[11px] font-black uppercase tracking-[0.2em] text-zinc-400 transition-all duration-300 hover:border-white/15 hover:bg-white/5 hover:text-white sm:w-auto text-center">
             System Architecture
-          </a>
+          </Link>
         </div>
         <div className="mt-16 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-600">
           {trustSignals.map((text) => (

@@ -104,7 +104,7 @@ export function Sidebar({ incidentCount = 0, user }: SidebarProps) {
             <div className="group-hover:translate-x-0.5 transition-transform duration-500">
               <h1 className="text-sm font-black text-white tracking-[0.15em] uppercase">{APP_CONFIG.shortName}</h1>
               <div className="flex items-center gap-1.5 mt-0.5">
-                <div className="w-1 h-1 shrink-0 rounded-full bg-neon-blue animate-pulse" />
+                {/* <div className="w-1 h-1 shrink-0 rounded-full bg-neon-blue animate-pulse" /> */}
                 <p className="text-[9px] text-zinc-600 font-black uppercase tracking-[0.2em]">{APP_CONFIG.tagline}</p>
               </div>
             </div>

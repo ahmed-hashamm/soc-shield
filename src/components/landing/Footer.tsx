@@ -1,6 +1,7 @@
-import Link from "next/link";
-import { MessageSquare, Globe, Share2, Shield } from "lucide-react";
+import { Logo } from "@/components/brand/Logo";
+import { Github } from "lucide-react";
 import { APP_CONFIG } from "@/lib/constants";
+import Link from "next/link";
 
 export function Footer() {
   return (
@@ -8,30 +9,22 @@ export function Footer() {
       <div className="mx-auto max-w-7xl px-6">
         <div className="grid gap-12 lg:grid-cols-4">
           <div className="lg:col-span-1">
-            <Link href="/" className="mb-6 flex items-center gap-3 group">
-              <div className="h-10 w-10 overflow-hidden rounded-xl border border-white/5 bg-white/2 p-1.5 transition-all group-hover:border-neon-blue/50 group-hover:bg-neon-blue/5">
-                <img src="/logo-icon.png" alt={`${APP_CONFIG.name} Icon`} className="h-full w-full object-contain" />
-              </div>
-              <div className="group-hover:translate-x-0.5 transition-transform">
-                <h4 className="text-sm font-bold tracking-tight text-white leading-tight">{APP_CONFIG.shortName}</h4>
-                <p className="text-[10px] font-bold uppercase tracking-widest text-zinc-500 leading-tight">{APP_CONFIG.tagline}</p>
-              </div>
-            </Link>
+            <Logo iconSize="md" className="mb-6" />
             <p className="mb-8 max-w-xs text-sm leading-relaxed text-zinc-500">
               {APP_CONFIG.description}
             </p>
             <div className="flex items-center gap-4">
               {[
-                { icon: MessageSquare, href: '#' },
-                { icon: Globe, href: '#' },
-                { icon: Share2, href: '#' }
+                { icon: Github, href: 'https://github.com/ahmed-hashamm/soc-shield.git' }
               ].map((social, i) => (
                 <a
                   key={i}
                   href={social.href}
-                  className="flex h-8 w-8 items-center justify-center rounded-lg border border-white/4 bg-white/2 text-zinc-500 transition-all hover:border-neon-blue/50 hover:text-white"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/4 bg-white/2 text-zinc-500 transition-all hover:border-neon-blue/50 hover:bg-neon-blue/5 hover:text-white"
                 >
-                  <social.icon size={14} />
+                  <social.icon size={18} />
                 </a>
               ))}
             </div>
@@ -41,23 +34,48 @@ export function Footer() {
             {[
               {
                 title: 'Product',
-                links: ['Features', 'Architecture', 'Feeds', 'Rules', 'Extension']
+                links: [
+                  { label: 'Features', href: '/#features' },
+                  { label: 'Architecture', href: '/#architecture' },
+                  { label: 'Feeds', href: '/#feeds' },
+                  { label: 'Rules', href: '/rules' },
+                  { label: 'Extension', href: '/extension' }
+                ]
               },
               {
                 title: 'Company',
-                links: ['About', 'Privacy Policy', 'Terms of Service', 'Security', 'Contact']
+                links: [
+                  { label: 'About', href: '/about' },
+                  { label: 'Privacy Policy', href: '/privacy' },
+                  { label: 'Terms of Service', href: '/terms' },
+                  { label: 'Security', href: '/security' },
+                  { label: 'Contact', href: '/contact' }
+                ]
               },
               {
                 title: 'Intelligence',
-                links: ['Abuse.ch', 'Firehol', 'Emerging Threats', 'CISA KEV', 'API Docs']
+                links: [
+                  { label: 'Abuse.ch', href: 'https://abuse.ch', external: true },
+                  { label: 'Firehol', href: 'https://iplists.firehol.org/', external: true },
+                  { label: 'Emerging Threats', href: 'https://rules.emergingthreats.net/', external: true },
+                  { label: 'CISA KEV', href: 'https://www.cisa.gov/known-exploited-vulnerabilities-catalog', external: true },
+                  { label: 'API Docs', href: '/docs/api' }
+                ]
               }
             ].map((section) => (
               <div key={section.title}>
                 <h4 className="mb-6 text-[11px] font-bold uppercase tracking-widest text-white">{section.title}</h4>
                 <ul className="space-y-4">
                   {section.links.map((link) => (
-                    <li key={link}>
-                      <a href="#" className="text-sm text-zinc-500 transition-colors hover:text-white">{link}</a>
+                    <li key={link.label}>
+                      <Link
+                        href={link.href}
+                        target={link.external ? "_blank" : undefined}
+                        rel={link.external ? "noopener noreferrer" : undefined}
+                        className="text-sm text-zinc-500 transition-colors hover:text-white"
+                      >
+                        {link.label}
+                      </Link>
                     </li>
                   ))}
                 </ul>

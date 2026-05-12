@@ -1,5 +1,7 @@
 'use client';
 
+import { Logo } from '@/components/brand/Logo';
+
 import { useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
 import Link from 'next/link';
@@ -57,13 +59,10 @@ export default function LoginPage() {
 
       <div className="relative z-10 w-full max-w-md animate-fade-in-up">
         {/* Logo & heading */}
-        <div className="mb-10 text-center">
-          <Link href="/" className="inline-block">
-            <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-neon-blue text-2xl font-black text-black shadow-[0_0_20px_rgba(0,210,255,0.35)]">
-              {APP_CONFIG.name.charAt(0)}
-            </div>
-          </Link>
-          <h1 className="text-2xl font-bold text-white">Welcome back</h1>
+        <div className="mb-10 text-center flex flex-col items-center">
+          <Logo iconSize="lg" showText={false} />
+
+          <h1 className="text-2xl font-bold text-white mt-8">Welcome back</h1>
           <p className="mt-1 text-sm text-zinc-400">
             Sign in to your {APP_CONFIG.name} account
           </p>

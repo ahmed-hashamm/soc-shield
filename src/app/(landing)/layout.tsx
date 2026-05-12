@@ -1,13 +1,11 @@
 import { Navbar } from "@/components/landing/Navbar";
-import { Hero } from "@/components/landing/Hero";
-import { Features } from "@/components/landing/Features";
-import { Architecture } from "@/components/landing/Architecture";
-import { Feeds } from "@/components/landing/Feeds";
-import { Pricing } from "@/components/landing/Pricing";
-import { CTA } from "@/components/landing/CTA";
 import { Footer } from "@/components/landing/Footer";
 
-export default function HomePage() {
+export default function LandingLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <div className="relative min-h-screen bg-[#050810] text-zinc-400 overflow-x-hidden font-sans selection:bg-blue-500/30">
       {/* ── Background ── */}
@@ -26,12 +24,7 @@ export default function HomePage() {
       <Navbar />
       
       <main className="relative">
-        <Hero />
-        <Features />
-        <Architecture />
-        <Feeds />
-        <Pricing />
-        <CTA />
+        {children}
       </main>
 
       <Footer />

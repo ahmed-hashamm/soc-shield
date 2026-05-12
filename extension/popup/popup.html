@@ -1,207 +1,366 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <style>
     :root {
       --neon-blue: #00d2ff;
-      --bg-dark: #09090b;
-      --border-color: rgba(255, 255, 255, 0.05);
+      --neon-red: #ff3e3e;
+      --bg-dark: #020408;
+      --card-bg: rgba(255, 255, 255, 0.03);
+      --border-color: rgba(255, 255, 255, 0.06);
     }
+
     body {
       width: 320px;
       margin: 0;
       background: var(--bg-dark);
       color: white;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       overflow: hidden;
     }
+
     .container {
-      padding: 20px;
-      border: 1px solid var(--border-color);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
+
     .header {
+      width: 100%;
       display: flex;
       align-items: center;
-      gap: 12px;
-      margin-bottom: 24px;
+      justify-content: space-between;
+      margin-bottom: 32px;
     }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
     .logo-img {
-      width: 32px;
-      height: 32px;
+      width: 24px;
+      height: 24px;
       object-fit: contain;
-      border-radius: 8px;
     }
+
     .brand h1 {
       margin: 0;
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 900;
-      letter-spacing: 0.1em;
+      letter-spacing: 0.15em;
       text-transform: uppercase;
+      color: #fff;
     }
-    .brand p {
-      margin: 2px 0 0;
-      font-size: 8px;
-      color: #555;
+
+    /* Main Toggle Section */
+    .toggle-section {
+      position: relative;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px 0;
+    }
+
+    .main-toggle-container {
+      position: relative;
+      width: 120px;
+      height: 120px;
+      margin: 0 auto 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+
+
+    #protection-toggle-btn {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: #111;
+      border: 4px solid #1a1a1a;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      outline: none;
+      box-shadow: inset 0 4px 10px rgba(0, 0, 0, 0.5), 0 10px 20px rgba(0, 0, 0, 0.4);
+    }
+
+    #protection-toggle-btn.active {
+      border-color: var(--neon-blue);
+      background: radial-gradient(circle at center, rgba(0, 210, 255, 0.1), #000);
+      box-shadow:
+        inset 0 2px 5px rgba(255, 255, 255, 0.1),
+        0 0 40px rgba(0, 210, 255, 0.4),
+        0 0 80px rgba(0, 210, 255, 0.1);
+      transition:
+        border-color 0.4s ease,
+        background 0.4s ease,
+        transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1),
+        box-shadow 0.8s ease 0.4s;
+    }
+
+
+    #protection-toggle-btn:hover {
+      transform: scale(1.02);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    #protection-toggle-btn.active:hover {
+      transform: scale(1.08);
+      border-color: var(--neon-blue);
+    }
+
+    #protection-toggle-btn:active {
+      transform: scale(0.92) !important;
+      transition: all 0.1s;
+    }
+
+    #protection-toggle-btn .power-icon {
+      width: 40px;
+      height: 40px;
+      transition: all 0.4s ease;
+    }
+
+    /* Background (Off) State Lines */
+    .icon-base {
+      stroke: #444; /* Visible gray base */
+      stroke-dasharray: 0;
+      stroke-dashoffset: 0;
+    }
+
+    /* Foreground (On) State Lines */
+    .icon-fill {
+      stroke: var(--neon-blue);
+      stroke-dasharray: 100;
+      stroke-dashoffset: 100;
+      opacity: 0;
+      transition: stroke-dashoffset 0.8s ease-in-out, opacity 0.3s ease;
+    }
+
+    #protection-toggle-btn.active .icon-fill {
+      stroke-dashoffset: 0;
+      opacity: 1;
+    }
+
+    #protection-toggle-btn.active .power-icon {
+      filter: drop-shadow(0 0 15px var(--neon-blue));
+    }
+
+    .status-text-wrap {
+      text-align: center;
+    }
+
+    #status-label {
+      display: block;
+      font-size: 10px;
       font-weight: 800;
-      text-transform: uppercase;
       letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #555;
+      margin-bottom: 4px;
     }
-    .status-card {
-      background: rgba(255, 255, 255, 0.02);
+
+    #status-value {
+      font-size: 18px;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      color: white;
+    }
+
+    #status-value.active {
+      color: var(--neon-blue);
+      text-shadow: 0 0 20px rgba(0, 210, 255, 0.4);
+    }
+
+    /* Stats Grid */
+    .stats-grid {
+      width: 100%;
+      display: grid;
+      grid-cols: 2;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 32px;
+    }
+
+    .stat-card {
+      background: var(--card-bg);
       border: 1px solid var(--border-color);
       border-radius: 12px;
-      padding: 16px;
-      margin-bottom: 20px;
+      padding: 12px;
+      text-align: center;
     }
-    .status-item {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 12px;
-    }
-    .status-item:last-child { margin-bottom: 0; }
-    .label {
-      font-size: 9px;
+
+    .stat-label {
+      display: block;
+      font-size: 8px;
       font-weight: 800;
       color: #666;
       text-transform: uppercase;
-      letter-spacing: 0.1em;
+      letter-spacing: 0.15em;
+      margin-bottom: 4px;
     }
-    .value {
-      font-size: 10px;
+
+    .stat-value {
+      font-size: 12px;
       font-weight: 700;
+      color: #fff;
     }
-    .value.active { color: var(--neon-blue); }
-    .footer {
-      border-top: 1px solid var(--border-color);
-      padding-top: 16px;
-      text-align: center;
-    }
-    button {
-      background: rgba(0, 210, 255, 0.1);
-      border: 1px solid rgba(0, 210, 255, 0.2);
-      color: var(--neon-blue);
+
+    /* Auth Section */
+    #auth-section {
       width: 100%;
-      padding: 10px;
-      border-radius: 8px;
-      font-size: 10px;
+      margin-top: 10px;
+    }
+
+    .input-group {
+      position: relative;
+      margin-bottom: 16px;
+    }
+
+    #token-input {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 14px;
+      color: white;
+      font-size: 11px;
+      box-sizing: border-box;
+      outline: none;
+      transition: all 0.3s;
+    }
+
+    #token-input:focus {
+      border-color: var(--neon-blue);
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    #connect-btn {
+      width: 100%;
+      padding: 14px;
+      border-radius: 10px;
+      background: var(--neon-blue);
+      color: black;
+      border: none;
+      font-size: 11px;
       font-weight: 900;
       text-transform: uppercase;
       letter-spacing: 0.15em;
       cursor: pointer;
-      transition: all 0.2s;
+      transition: all 0.3s;
     }
-    button:hover {
-      background: var(--neon-blue);
-      color: black;
+
+    #connect-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0, 210, 255, 0.3);
     }
-    .token-warning {
+
+    .footer-links {
+      margin-top: 20px;
       font-size: 9px;
-      color: #71717a;
+      color: #555;
       text-align: center;
-      margin-top: 12px;
     }
-    #token-input {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid var(--border-color);
-      color: white;
-      width: calc(100% - 22px);
-      padding: 10px;
-      border-radius: 8px;
-      font-size: 10px;
-      margin-bottom: 12px;
-      outline: none;
-    }
-    #token-input:focus {
-      border-color: var(--neon-blue);
-    }
-    #dashboard-link {
+
+    .footer-links a {
       color: var(--neon-blue);
       text-decoration: none;
+      font-weight: 700;
     }
-    #dashboard-link:hover {
-      text-decoration: underline;
+
+    /* Animation */
+    @keyframes pulse-glow {
+      0% {
+        box-shadow: 0 0 20px rgba(0, 210, 255, 0.2), inset 0 0 10px rgba(0, 210, 255, 0.1);
+        transform: scale(1.05);
+      }
+
+      50% {
+        box-shadow: 0 0 60px rgba(0, 210, 255, 0.5), inset 0 0 20px rgba(0, 210, 255, 0.2);
+        transform: scale(1.12);
+      }
+
+      100% {
+        box-shadow: 0 0 20px rgba(0, 210, 255, 0.2), inset 0 0 10px rgba(0, 210, 255, 0.1);
+        transform: scale(1.05);
+      }
     }
-    
-    /* Toggle Switch CSS */
-    .switch {
-      position: relative;
-      display: inline-block;
-      width: 28px;
-      height: 16px;
-    }
-    .switch input {
-      opacity: 0;
-      width: 0;
-      height: 0;
-    }
-    .slider {
-      position: absolute;
-      cursor: pointer;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background-color: rgba(255, 255, 255, 0.1);
-      transition: .2s;
-      border-radius: 16px;
-      border: 1px solid var(--border-color);
-    }
-    .slider:before {
-      position: absolute;
-      content: "";
-      height: 10px;
-      width: 10px;
-      left: 2px;
-      bottom: 2px;
-      background-color: #a1a1aa;
-      transition: .2s;
-      border-radius: 50%;
-    }
-    input:checked + .slider {
-      background-color: rgba(0, 210, 255, 0.1);
-      border-color: var(--neon-blue);
-    }
-    input:checked + .slider:before {
-      transform: translateX(12px);
-      background-color: var(--neon-blue);
+
+    .pulse-active {
+      animation: pulse-glow 2s infinite ease-in-out;
+      animation-delay: 0.8s;
+      /* Wait for the fill animation to complete */
     }
   </style>
 </head>
+
 <body>
   <div class="container">
     <div class="header">
-      <img src="../icon48.png" class="logo-img" alt="Logo" />
       <div class="brand">
+        <img src="../icon48.png" class="logo-img" alt="Logo" />
         <h1>SOC Shield</h1>
-        <p>Active Protection</p>
+      </div>
+      <div id="sync-indicator" style="display: none;">
+        <span class="h-1.5 w-1.5 rounded-full bg-emerald-500 inline-block"
+          style="width:6px; height:6px; border-radius:50%; background:#10b981; box-shadow: 0 0 10px #10b981;"></span>
       </div>
     </div>
 
-    <div class="status-card" id="status-card" style="display: none;">
-      <div class="status-item">
-        <span class="label" style="align-self: center;">Protection</span>
-        <label class="switch">
-          <input type="checkbox" id="protection-toggle" checked>
-          <span class="slider"></span>
-        </label>
+    <!-- Main Content Area -->
+    <div id="status-card" style="display: none; width: 100%;">
+      <div class="main-toggle-container">
+
+        <button id="protection-toggle-btn">
+          <svg class="power-icon" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <!-- Base Layer (Gray) -->
+            <path class="icon-base" d="M18.36 6.64a9 9 0 1 1-12.73 0"></path>
+            <line class="icon-base" x1="12" y1="2" x2="12" y2="12"></line>
+            
+            <!-- Active Layer (Blue Fill) -->
+            <path class="icon-fill" d="M18.36 6.64a9 9 0 1 1-12.73 0"></path>
+            <line class="icon-fill" x1="12" y1="2" x2="12" y2="12"></line>
+          </svg>
+        </button>
       </div>
-      <div class="status-item">
-        <span class="label">Status</span>
-        <span class="value active" id="status">Shield Enabled</span>
-      </div>
-      <div class="status-item">
-        <span class="label">Threat Rules</span>
-        <span class="value" id="rule-count">--</span>
-      </div>
-      <div class="status-item">
-        <span class="label">Last Sync</span>
-        <span class="value" id="last-sync">--</span>
+      <div class="status-text-wrap">
+        <span id="status-label">System State</span>
+        <div id="status-value">Shield Inactive</div>
       </div>
     </div>
 
-    <div id="auth-section">
+    <div class="stats-grid">
+      <div class="stat-card">
+        <span class="stat-label">Threat Rules</span>
+        <div class="stat-value" id="rule-count">--</div>
+      </div>
+      <div class="stat-card">
+        <span class="stat-label">Last Sync</span>
+        <div class="stat-value" id="last-sync">--</div>
+      </div>
+    </div>
+  </div>
+
+  <div id="auth-section" style="display: none;">
+    <div class="input-group">
       <input type="text" id="token-input" placeholder="Paste device token here..." />
-      <button id="connect-btn">Connect Device</button>
-      <p class="token-warning">Get your token from the <a href="#" id="dashboard-link">Dashboard</a>.</p>
     </div>
+    <button id="connect-btn">Connect Device</button>
+    <div class="footer-links">
+      Get your token from the <a href="#" id="dashboard-link">Dashboard</a>.
+    </div>
+  </div>
   </div>
   <script src="popup.js"></script>
 </body>
+
 </html>
