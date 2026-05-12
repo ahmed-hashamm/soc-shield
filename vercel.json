@@ -1,0 +1,6 @@
+{
+  "crons": [
+    { "path": "/api/cron/ingest-feeds", "schedule": "0 2 * * *" },
+    { "path": "/api/cron/cleanup", "schedule": "0 3 * * 0" }
+  ]
+}

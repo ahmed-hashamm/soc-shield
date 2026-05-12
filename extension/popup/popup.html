@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    :root {
+      --neon-blue: #00d2ff;
+      --bg-dark: #09090b;
+      --border-color: rgba(255, 255, 255, 0.05);
+    }
+    body {
+      width: 320px;
+      margin: 0;
+      background: var(--bg-dark);
+      color: white;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      overflow: hidden;
+    }
+    .container {
+      padding: 20px;
+      border: 1px solid var(--border-color);
+    }
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+    .logo-img {
+      width: 32px;
+      height: 32px;
+      object-fit: contain;
+      border-radius: 8px;
+    }
+    .brand h1 {
+      margin: 0;
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+    .brand p {
+      margin: 2px 0 0;
+      font-size: 8px;
+      color: #555;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+    }
+    .status-card {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 20px;
+    }
+    .status-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+    .status-item:last-child { margin-bottom: 0; }
+    .label {
+      font-size: 9px;
+      font-weight: 800;
+      color: #666;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+    .value {
+      font-size: 10px;
+      font-weight: 700;
+    }
+    .value.active { color: var(--neon-blue); }
+    .footer {
+      border-top: 1px solid var(--border-color);
+      padding-top: 16px;
+      text-align: center;
+    }
+    button {
+      background: rgba(0, 210, 255, 0.1);
+      border: 1px solid rgba(0, 210, 255, 0.2);
+      color: var(--neon-blue);
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      font-size: 10px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    button:hover {
+      background: var(--neon-blue);
+      color: black;
+    }
+    .token-warning {
+      font-size: 9px;
+      color: #71717a;
+      text-align: center;
+      margin-top: 12px;
+    }
+    #token-input {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-color);
+      color: white;
+      width: calc(100% - 22px);
+      padding: 10px;
+      border-radius: 8px;
+      font-size: 10px;
+      margin-bottom: 12px;
+      outline: none;
+    }
+    #token-input:focus {
+      border-color: var(--neon-blue);
+    }
+    #dashboard-link {
+      color: var(--neon-blue);
+      text-decoration: none;
+    }
+    #dashboard-link:hover {
+      text-decoration: underline;
+    }
+    
+    /* Toggle Switch CSS */
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 28px;
+      height: 16px;
+    }
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: rgba(255, 255, 255, 0.1);
+      transition: .2s;
+      border-radius: 16px;
+      border: 1px solid var(--border-color);
+    }
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 10px;
+      width: 10px;
+      left: 2px;
+      bottom: 2px;
+      background-color: #a1a1aa;
+      transition: .2s;
+      border-radius: 50%;
+    }
+    input:checked + .slider {
+      background-color: rgba(0, 210, 255, 0.1);
+      border-color: var(--neon-blue);
+    }
+    input:checked + .slider:before {
+      transform: translateX(12px);
+      background-color: var(--neon-blue);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <img src="../icon48.png" class="logo-img" alt="Logo" />
+      <div class="brand">
+        <h1>SOC Shield</h1>
+        <p>Active Protection</p>
+      </div>
+    </div>
+
+    <div class="status-card" id="status-card" style="display: none;">
+      <div class="status-item">
+        <span class="label" style="align-self: center;">Protection</span>
+        <label class="switch">
+          <input type="checkbox" id="protection-toggle" checked>
+          <span class="slider"></span>
+        </label>
+      </div>
+      <div class="status-item">
+        <span class="label">Status</span>
+        <span class="value active" id="status">Shield Enabled</span>
+      </div>
+      <div class="status-item">
+        <span class="label">Threat Rules</span>
+        <span class="value" id="rule-count">--</span>
+      </div>
+      <div class="status-item">
+        <span class="label">Last Sync</span>
+        <span class="value" id="last-sync">--</span>
+      </div>
+    </div>
+
+    <div id="auth-section">
+      <input type="text" id="token-input" placeholder="Paste device token here..." />
+      <button id="connect-btn">Connect Device</button>
+      <p class="token-warning">Get your token from the <a href="#" id="dashboard-link">Dashboard</a>.</p>
+    </div>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>
