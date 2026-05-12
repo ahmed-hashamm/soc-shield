@@ -4,7 +4,7 @@ import { features } from "@/lib/constants/landing-data";
 
 export function Features() {
   return (
-    <section id="features" className="relative z-10 flex min-h-screen items-center border-t border-white/4 py-20">
+    <section id="features" className="relative z-10 flex min-h-screen items-center border-t border-white/[0.04] py-20">
       <div className="mx-auto max-w-7xl px-6 w-full">
         <SectionHeader
           badge="Engine"

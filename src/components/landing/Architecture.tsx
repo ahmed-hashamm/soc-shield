@@ -4,7 +4,7 @@ import { steps } from "@/lib/constants/landing-data";
 
 export function Architecture() {
   return (
-    <section id="architecture" className="relative z-10 flex min-h-screen items-center border-t border-white/4 bg-[#030508]/40 py-20">
+    <section id="architecture" className="relative z-10 flex min-h-screen items-center border-t border-white/[0.04] bg-[#030508]/40 py-20">
       <div className="mx-auto max-w-5xl px-6 w-full">
         <SectionHeader
           badge="Infrastructure"
